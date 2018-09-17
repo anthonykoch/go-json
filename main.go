@@ -59,6 +59,11 @@ var print = fmt.Println
 
 func main() {
 	spew.Dump(parse("{\"lul\": [1, \"hello\"]}"))
+	spew.Dump(parse("123"))
+	spew.Dump(parse("123.123"))
+	spew.Dump(parse("\"hey\""))
+	
+	spew.Dump(parse("123 ]"))
 }
 
 
