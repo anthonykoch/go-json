@@ -4,7 +4,6 @@ import (
 	"regexp"
 	"fmt"
 	"github.com/davecgh/go-spew/spew"
-	// "testing"
 )
 
 var S_SPACE = "[\u0009\u000a\u000d\u0020]"
@@ -63,7 +62,7 @@ func main() {
 	spew.Dump(parse("123.123"))
 	spew.Dump(parse("\"hey\""))
 	
-	spew.Dump(parse("123 ]"))
+	parse("123 ]")
 }
 
 
@@ -280,9 +279,6 @@ func (parser *Parser) parseValue() interface{} {
 func (parser *Parser) parseArrayLiteral() ArrayLiteral {
 	elements := make([]interface{}, 0)
 	startToken := parser.ensure("[")
-	// print(parser.lexer.peek())
-
-	// print(parser.lexer.peek())
 	
 	for !parser.is("]") {
 		node := parser.parseValue()
@@ -387,7 +383,6 @@ func (lexer *JsonLexer) lookahead(index int) (Token, error) {
 	
 	for ; !lexer.hasEnded() && remainder > -1; remainder-- {
 		token, err := lexer.lex()
-		// print(lexer.hasEnded(), remainder, token)
 
 		if err == nil {
 			lexer.stash = append(lexer.stash, token)
@@ -413,14 +408,12 @@ func (lexer *JsonLexer) next() (Token, error) {
 	
 	if len(lexer.stash) > 0 {
 		token, lexer.stash = lexer.stash[0], lexer.stash[1:]
-		// print("stash", token)
 		return token, nil
 	} else if (lexer.hasEnded()) {
 		return token, &LexError{ message: "Lexer has already ended" }
 	}
 
 	token, err := lexer.lex()
-	// print("lex", token)
 	
 	return token, err
 }
@@ -477,8 +470,6 @@ func (lexer *JsonLexer) lex() (Token, error) {
 			lexer.forward(len(token.value))
 			lexer.skipWhitespace()
 
-			// print(token, lexer.hasEnded(), lexer.index, len(lexer.source))
-
 			return token, nil
 		}
 	}
@@ -509,18 +500,3 @@ func CreateToken(name string, value string, start int) Token {
 			end: start + len(value) - 1,
 	}
 }
-
-
-
-
-
-// func TestParser(t *testing.T) {
-// 	total := Sum(5, 5)
-// 	if total != 10 {
-// 		 t.Errorf("Sum was incorrect, got: %d, want: %d.", total, 10)
-// 	}
-// }
-
-
-
-
